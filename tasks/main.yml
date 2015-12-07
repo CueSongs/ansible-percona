@@ -32,14 +32,14 @@
   template: src=root-my.cnf.j2 dest=/root/.my.cnf owner=root mode=0600
 
 - name: Update MySQL root password
-  mysql_user: name=root host={{ item }} password={{ mysql.password }} login_user=root login_password={{ mysql.password }} check_implicit_admin=yes
+  mysql_user: name=root host={{ item }} password={{ app.laravel.mysql.password }} login_user=root login_password={{ app.laravel.mysql.password }} check_implicit_admin=yes
   with_items:
     - "{{ ansible_hostname }}"
     - 127.0.0.1
     - localhost
 
 - name: Update MySQL root password
-  mysql_user: name=root host='%' password={{ mysql.password }} login_user=root login_password={{ mysql.password }} check_implicit_admin=yes priv=*.*:ALL,GRANT
+  mysql_user: name=root host='%' password={{ app.laravel.mysql.password }} login_user=root login_password={{ app.laravel.mysql.password }} check_implicit_admin=yes priv=*.*:ALL,GRANT
 
 - name: Ensure anonymous users are not in the database
   mysql_user: name='' host={{ item }} state=absent
